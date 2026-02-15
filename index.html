@@ -1,0 +1,1178 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 ФИНАНСОВЫЙ ОТЧЁТ ДЛЯ СОБСТВЕННИКОВ | 15 февраля 2026</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --red-alert: #dc3545;
+            --red-dark: #a71d2a;
+            --orange-warning: #fd7e14;
+            --yellow-caution: #ffc107;
+            --green-safe: #28a745;
+            --blue-info: #007bff;
+            --gray-bg: #f8f9fa;
+            --dark-text: #212529;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .report-header {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 8px solid var(--red-alert);
+        }
+        
+        .report-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--red-alert);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .report-subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .report-date {
+            font-size: 1.1rem;
+            color: var(--blue-info);
+            font-weight: 600;
+        }
+        
+        .executive-summary {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            border-left: 8px solid var(--red-alert);
+        }
+        
+        .summary-title {
+            font-size: 2rem;
+            color: var(--red-alert);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .summary-critical {
+            background: linear-gradient(135deg, var(--red-alert) 0%, var(--red-dark) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .summary-card {
+            background: var(--gray-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--orange-warning);
+        }
+        
+        .summary-card.highlight {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            border-left: 4px solid var(--red-alert);
+        }
+        
+        .summary-card-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--red-alert);
+        }
+        
+        .summary-card-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--red-dark);
+        }
+        
+        .summary-card-value.positive {
+            color: var(--green-safe);
+        }
+        
+        .key-conclusions {
+            margin-top: 30px;
+        }
+        
+        .conclusion-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--red-alert);
+        }
+        
+        .conclusion-list {
+            list-style: none;
+        }
+        
+        .conclusion-item {
+            background: white;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--orange-warning);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .conclusion-item::before {
+            content: "❗";
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--blue-info);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--blue-info);
+        }
+        
+        .section-title.danger {
+            color: var(--red-alert);
+            border-bottom-color: var(--red-alert);
+        }
+        
+        .section-title.warning {
+            color: var(--orange-warning);
+            border-bottom-color: var(--orange-warning);
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .project-card {
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .project-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--blue-info);
+        }
+        
+        .project-metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .project-metric:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            color: #666;
+        }
+        
+        .metric-value {
+            font-weight: 700;
+            color: var(--dark-text);
+        }
+        
+        .metric-value.profit {
+            color: var(--green-safe);
+        }
+        
+        .metric-value.loss {
+            color: var(--red-alert);
+        }
+        
+        .readiness-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .readiness-table th,
+        .readiness-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .readiness-table th {
+            background: var(--blue-info);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .readiness-table tr:hover {
+            background: var(--gray-bg);
+        }
+        
+        .delay-badge {
+            display: inline-block;
+            background: var(--red-alert);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .readiness-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--orange-warning) 0%, #e07a00 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .chart-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--gray-bg);
+            border-radius: var(--border-radius);
+        }
+        
+        .chart-title {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark-text);
+            font-weight: 600;
+        }
+        
+        .liquidity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .liquidity-card {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+        
+        .liquidity-card.critical {
+            background: linear-gradient(135deg, var(--red-alert) 0%, var(--red-dark) 100%);
+        }
+        
+        .liquidity-card.warning {
+            background: linear-gradient(135deg, var(--orange-warning) 0%, #e07a00 100%);
+        }
+        
+        .liquidity-card.info {
+            background: linear-gradient(135deg, var(--blue-info) 0%, #0056b3 100%);
+        }
+        
+        .liquidity-label {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .liquidity-value {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .liquidity-note {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .money-flow-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .money-flow-table th,
+        .money-flow-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .money-flow-table th {
+            background: var(--blue-info);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .money-flow-row.purpose {
+            background: #d4edda;
+        }
+        
+        .money-flow-row.management {
+            background: #fff3cd;
+        }
+        
+        .money-flow-row.misused {
+            background: #f8d7da;
+        }
+        
+        .money-flow-row.total {
+            background: #e7f3ff;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .percent-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .percent-badge.green {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .percent-badge.yellow {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .percent-badge.red {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .escrow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .escrow-card {
+            border: 2px solid var(--blue-info);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            background: #e7f3ff;
+        }
+        
+        .escrow-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--blue-info);
+            margin-bottom: 15px;
+        }
+        
+        .stress-scenario {
+            background: linear-gradient(135deg, var(--red-alert) 0%, var(--red-dark) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-top: 30px;
+        }
+        
+        .scenario-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .scenario-list {
+            list-style: none;
+        }
+        
+        .scenario-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid white;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .scenario-item::before {
+            content: "⚠️";
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .owners-block {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-top: 30px;
+        }
+        
+        .owners-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .owners-important,
+        .owners-cannot-ignore {
+            margin-bottom: 30px;
+        }
+        
+        .owners-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .owners-list {
+            list-style: none;
+        }
+        
+        .owners-item {
+            background: rgba(255,255,255,0.15);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid white;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .owners-item::before {
+            content: "❗";
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .owners-cannot-ignore .owners-item::before {
+            content: "🔴";
+        }
+        
+        .recommendation-block {
+            background: linear-gradient(135deg, var(--green-safe) 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .recommendation-title {
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+        
+        .recommendation-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .recommendation-item {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: var(--border-radius);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .recommendation-item::before {
+            content: "✔";
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .roadmap-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .roadmap-table th,
+        .roadmap-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .roadmap-table th {
+            background: var(--blue-info);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .roadmap-table tr:nth-child(even) {
+            background: var(--gray-bg);
+        }
+        
+        .deadline-badge {
+            display: inline-block;
+            background: var(--red-alert);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+        
+        .final-warning {
+            background: linear-gradient(135deg, var(--red-alert) 0%, var(--red-dark) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-top: 40px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        .emoji-large {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .report-title {
+                font-size: 1.8rem;
+            }
+            
+            .summary-grid,
+            .portfolio-grid,
+            .liquidity-grid,
+            .escrow-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="report-header">
+            <h1 class="report-title blink">🚨 ФИНАНСОВЫЙ ОТЧЁТ ДЛЯ СОБСТВЕННИКОВ</h1>
+            <p class="report-subtitle">CFO · стратегическая диагностика</p>
+            <p class="report-date">⚡ Ситуация критическая, но обратимая. Деньги проектного финансирования потрачены, стройка отстаёт на 2–10 месяцев. Без немедленной смены управления — банкротство.</p>
+            <p class="report-date"><strong>15 февраля 2026</strong></p>
+        </div>
+
+        <!-- EXECUTIVE SUMMARY -->
+        <div class="executive-summary">
+            <h2 class="summary-title">🔴 EXECUTIVE SUMMARY</h2>
+            <div class="summary-critical">
+                ❗ Денег нет. Кредиторская задолженность — 119 млн ₽, остаток на счетах — 1,6 млн ₽.
+            </div>
+            
+            <div class="summary-grid">
+                <div class="summary-card highlight">
+                    <div class="summary-card-title">Общий долг (ПФ + кредиторы)</div>
+                    <div class="summary-card-value">1 175 млн ₽</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-title">Лимит ПФ</div>
+                    <div class="summary-card-value">1 056 млн ₽</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-title">Выбрано</div>
+                    <div class="summary-card-value">863,6 млн ₽</div>
+                </div>
+                <div class="summary-card highlight">
+                    <div class="summary-card-title">Нецелевое использование ПФ</div>
+                    <div class="summary-card-value">190 млн ₽</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-title">Административные расходы</div>
+                    <div class="summary-card-value">22%</div>
+                </div>
+                <div class="summary-card highlight">
+                    <div class="summary-card-title">Отставание от графика</div>
+                    <div class="summary-card-value">2–10 месяцев</div>
+                </div>
+            </div>
+            
+            <div class="key-conclusions">
+                <h3 class="conclusion-title">Три ключевых вывода:</h3>
+                <ul class="conclusion-list">
+                    <li class="conclusion-item">Кризис — управленческий, а не рыночный. Деньги не конвертированы в стройку.</li>
+                    <li class="conclusion-item">Доверие банка вернёт только физический прирост готовности (+3–5% за 30 дней).</li>
+                    <li class="conclusion-item">Решение: в течение 7 дней внедрить антикризисного руководителя стройки с полными полномочиями.</li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #f8d7da; border-left: 4px solid var(--red-alert); border-radius: var(--border-radius);">
+                <strong>⚠️ Просроченная задолженность по зарплате — 1 месяц.</strong> Ключевые сотрудники могут уйти в ближайшие дни.
+            </div>
+        </div>
+
+        <!-- PORTFOLIO -->
+        <div class="section">
+            <h2 class="section-title">📊 ПОРТФЕЛЬ ПРОЕКТОВ (план)</h2>
+            <div class="portfolio-grid">
+                <div class="project-card">
+                    <div class="project-name">🏢 Молодёжный 1</div>
+                    <div class="project-metric">
+                        <span class="metric-label">Площадь, м²</span>
+                        <span class="metric-value">5 354</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Выручка, млн ₽</span>
+                        <span class="metric-value">642,5</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Чистая прибыль, млн ₽</span>
+                        <span class="metric-value profit">62,7</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Рентабельность</span>
+                        <span class="metric-value profit">10,8%</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-name">🏢 Молодёжный 2</div>
+                    <div class="project-metric">
+                        <span class="metric-label">Площадь, м²</span>
+                        <span class="metric-value">5 383</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Выручка, млн ₽</span>
+                        <span class="metric-value">824,6</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Чистая прибыль, млн ₽</span>
+                        <span class="metric-value profit">101,0</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Рентабельность</span>
+                        <span class="metric-value profit">14,0%</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-name">🏢 Донецкий 3</div>
+                    <div class="project-metric">
+                        <span class="metric-label">Площадь, м²</span>
+                        <span class="metric-value">4 846</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Выручка, млн ₽</span>
+                        <span class="metric-value">670,3</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Чистая прибыль, млн ₽</span>
+                        <span class="metric-value profit">58,8</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Рентабельность</span>
+                        <span class="metric-value profit">9,6%</span>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-left: 4px solid var(--orange-warning); border-radius: var(--border-radius);">
+                <strong>*Проекты прибыльны, но прибыль останется на бумаге без завершения строек.</strong>
+            </div>
+        </div>
+
+        <!-- CONSTRUCTION READINESS -->
+        <div class="section">
+            <h2 class="section-title danger">🏗️ СТРОИТЕЛЬНАЯ ГОТОВНОСТЬ (ФАКТ) ГПР на 15.02.2026</h2>
+            
+            <h3 style="margin: 20px 0 15px; color: var(--blue-info);">🏢 ЖК «Молодёжный», 1 очередь</h3>
+            <table class="readiness-table">
+                <thead>
+                    <tr>
+                        <th>Этап работ</th>
+                        <th>Готовность</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Каркас (поз.1)</td>
+                        <td>100% <span class="delay-badge">задержка 1 мес.</span></td>
+                    </tr>
+                    <tr>
+                        <td>Каркас (поз.2)</td>
+                        <td>85% <span class="delay-badge">задержка 1 мес.</span></td>
+                    </tr>
+                    <tr>
+                        <td>Устройство кровли</td>
+                        <td>0% <span class="delay-badge">задержка >3 мес.</span></td>
+                    </tr>
+                    <tr>
+                        <td>Фасад</td>
+                        <td>0% <span class="delay-badge">задержка >7 мес.</span></td>
+                    </tr>
+                    <tr>
+                        <td>Внутренние сети (отопление)</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>Лифты</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 700; background: #f8f9fa;">Интегральная готовность</td>
+                        <td style="font-weight: 700; background: #f8f9fa;"><span class="readiness-badge">~30–35%</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 10px; padding: 10px; background: #f8d7da; border-left: 4px solid var(--red-alert); border-radius: var(--border-radius);">
+                📉 План сдачи 31.12.2025 – при текущих темпах сдвиг на 6–8 мес.
+            </div>
+            
+            <h3 style="margin: 30px 0 15px; color: var(--blue-info);">🏭 ЖК «Донецкий», 3 очередь</h3>
+            <table class="readiness-table">
+                <thead>
+                    <tr>
+                        <th>Этап работ</th>
+                        <th>Готовность</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Каркас (д.8)</td>
+                        <td>60% <span class="delay-badge">задержка 2 мес.</span></td>
+                    </tr>
+                    <tr>
+                        <td>Каркас (д.9)</td>
+                        <td>50% <span class="delay-badge">задержка 2 мес.</span></td>
+                    </tr>
+                    <tr>
+                        <td>Устройство кровли</td>
+                        <td>0% <span class="delay-badge">задержка >5 мес.</span></td>
+                    </tr>
+                    <tr>
+                        <td>Фасад</td>
+                        <td>0% <span class="delay-badge">задержка >4 мес.</span></td>
+                    </tr>
+                    <tr>
+                        <td>Внутренние сети</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>Наружные сети</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 700; background: #f8f9fa;">Интегральная готовность</td>
+                        <td style="font-weight: 700; background: #f8f9fa;"><span class="readiness-badge">~25–30%</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 10px; padding: 10px; background: #f8d7da; border-left: 4px solid var(--red-alert); border-radius: var(--border-radius);">
+                📉 Сдача в 2025 невозможна, требуется экстренное вмешательство.
+            </div>
+        </div>
+
+        <!-- LIQUIDITY AND DEBT -->
+        <div class="section">
+            <h2 class="section-title danger">💰 ЛИКВИДНОСТЬ И ДОЛГ — критично</h2>
+            <div class="liquidity-grid">
+                <div class="liquidity-card critical">
+                    <div class="liquidity-label">Остаток ДС на 15.02.2026</div>
+                    <div class="liquidity-value">1,59 млн ₽</div>
+                    <div class="liquidity-note">менее 1% от долга</div>
+                </div>
+                <div class="liquidity-card critical">
+                    <div class="liquidity-label">Кредиторская задолженность</div>
+                    <div class="liquidity-value">119,4 млн ₽</div>
+                    <div class="liquidity-note">срочный платёж</div>
+                </div>
+                <div class="liquidity-card info">
+                    <div class="liquidity-label">Лимит ПФ (два проекта)</div>
+                    <div class="liquidity-value">1 055,8 млн ₽</div>
+                </div>
+                <div class="liquidity-card warning">
+                    <div class="liquidity-label">Остаток невыбранного лимита</div>
+                    <div class="liquidity-value">192,2 млн ₽</div>
+                    <div class="liquidity-note">⚠️ банк заморозил</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #f8d7da; border: 2px solid var(--red-alert); border-radius: var(--border-radius); text-align: center;">
+                <strong>⛔ Банк заморозил выборку из-за нецелевого использования.</strong>
+            </div>
+            
+            <h3 style="margin: 30px 0 15px; color: var(--blue-info);">Кредиторская задолженность по приоритетам</h3>
+            <div style="height: 300px; margin-top: 20px;">
+                <canvas id="creditorsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- WHERE DID THE MONEY GO -->
+        <div class="section">
+            <h2 class="section-title danger">🔍 КУДА УШЛИ ДЕНЬГИ ПФ? — главный удар</h2>
+            <table class="money-flow-table">
+                <thead>
+                    <tr>
+                        <th>Статья расходов</th>
+                        <th>Сумма, млн ₽</th>
+                        <th>Доля</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="money-flow-row purpose">
+                        <td><strong>СМР по назначению</strong></td>
+                        <td><strong>459,3</strong></td>
+                        <td><span class="percent-badge green">53,2%</span></td>
+                    </tr>
+                    <tr class="money-flow-row management">
+                        <td><strong>Управленческие и хоз. расходы</strong></td>
+                        <td><strong>213,9</strong></td>
+                        <td><span class="percent-badge yellow">24,8%</span></td>
+                    </tr>
+                    <tr class="money-flow-row misused">
+                        <td><strong>Отвлечено не по назначению</strong></td>
+                        <td><strong>190,4</strong></td>
+                        <td><span class="percent-badge red">22,0%</span></td>
+                    </tr>
+                    <tr class="money-flow-row total">
+                        <td><strong>ИТОГО</strong></td>
+                        <td><strong>863,6</strong></td>
+                        <td><strong>100%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="margin-top: 20px; padding: 20px; background: #f8d7da; border: 2px solid var(--red-alert); border-radius: var(--border-radius);">
+                <strong>❗ Для банка это сигнал: заёмщик не контролирует целевое использование средств.</strong>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Распределение средств проектного финансирования</div>
+                <div style="height: 400px;">
+                    <canvas id="moneyFlowChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- SALES AND ESCROW -->
+        <div class="section">
+            <h2 class="section-title warning">📈 ПРОДАЖИ И ЭСКРОУ</h2>
+            
+            <div class="escrow-grid">
+                <div class="escrow-card">
+                    <div class="escrow-title">🏢 ЖК Молодёжный</div>
+                    <div class="project-metric">
+                        <span class="metric-label">Продано, м²</span>
+                        <span class="metric-value">3 732</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Остаток, м²</span>
+                        <span class="metric-value">1 385</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Договоров, млн ₽</span>
+                        <span class="metric-value">475,5</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Эскроу, млн ₽</span>
+                        <span class="metric-value">452,8</span>
+                    </div>
+                </div>
+                <div class="escrow-card">
+                    <div class="escrow-title">🏭 ЖК Донецкий</div>
+                    <div class="project-metric">
+                        <span class="metric-label">Продано, м²</span>
+                        <span class="metric-value">2 960</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Остаток, м²</span>
+                        <span class="metric-value">1 335</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Договоров, млн ₽</span>
+                        <span class="metric-value">460,9</span>
+                    </div>
+                    <div class="project-metric">
+                        <span class="metric-label">Эскроу, млн ₽</span>
+                        <span class="metric-value">385,9</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: var(--border-radius); text-align: center;">
+                <div style="font-size: 2rem; font-weight: 800; margin-bottom: 10px;">⏳ На эскроу 839 млн ₽</div>
+                <div style="font-size: 1.2rem;">но они заморожены до достижения строительной готовности (30%, 50%, 70%).</div>
+                <div style="font-size: 1.3rem; font-weight: 700; margin-top: 10px;">Текущая готовность ниже порогов → деньги не доступны.</div>
+            </div>
+        </div>
+
+        <!-- STRESS SCENARIO -->
+        <div class="stress-scenario">
+            <h2 class="scenario-title">🧪 СТРЕСС-СЦЕНАРИЙ</h2>
+            <p style="margin-bottom: 20px; font-size: 1.2rem;">Моделируем ухудшение: падение продаж на 30%, рост себестоимости на 15%, сохранение ставки ПФ.</p>
+            <ul class="scenario-list">
+                <li class="scenario-item">Дополнительная потребность в финансировании: 100–120 млн ₽</li>
+                <li class="scenario-item">DSCR упадёт ниже 1,0 → банк инициирует процедуру наблюдения</li>
+                <li class="scenario-item">Без докапитализации проекты будут заморожены, потери капитала — 100%</li>
+            </ul>
+            <div style="margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: var(--border-radius); text-align: center; font-size: 1.3rem; font-weight: 700;">
+                Запас прочности при текущем управлении — отрицательный.
+            </div>
+        </div>
+
+        <!-- OWNERS BLOCK -->
+        <div class="owners-block">
+            <h2 class="owners-title">👑 БЛОК ДЛЯ СОБСТВЕННИКОВ</h2>
+            
+            <div class="owners-important">
+                <h3 class="owners-subtitle">❗ Что важно знать сейчас</h3>
+                <ul class="owners-list">
+                    <li class="owners-item">💸 Денег нет даже на зарплату следующей недели.</li>
+                    <li class="owners-item">📉 190 млн ₽ кредитных средств потрачены не на стройку – главная причина блокировки банка.</li>
+                    <li class="owners-item">🏦 Эскроу наполнен (839 млн ₽), но доступ откроется только после роста готовности.</li>
+                    <li class="owners-item">📅 Отставание от графиков — 2–10 месяцев. Без экстренных мер сдача в 2026 невозможна.</li>
+                    <li class="owners-item">💰 Остаток лимита ПФ — 192 млн ₽ – последний ресурс, но банк его не даст без прогресса.</li>
+                </ul>
+            </div>
+            
+            <div class="owners-cannot-ignore">
+                <h3 class="owners-subtitle">⛔ Что нельзя игнорировать</h3>
+                <ul class="owners-list">
+                    <li class="owners-item">🔴 Текущий руководитель стройки не справляется – это факт, подтверждённый цифрами и сроками.</li>
+                    <li class="owners-item">🔴 Промедление со сменой управления в ближайшие 7 дней приведёт к необратимому коллапсу.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- RECOMMENDATION -->
+        <div class="recommendation-block">
+            <h2 class="recommendation-title">✅ Рекомендация – безальтернативна</h2>
+            <ul class="recommendation-list">
+                <li class="recommendation-item">Нанять внешнего антикризисного руководителя стройки до 20.02.2026</li>
+                <li class="recommendation-item">Дать ему полные полномочия: остановка второстепенных работ, концентрация на Молодёжном 1, прямые переговоры с кредиторами, ежедневный контроль.</li>
+                <li class="recommendation-item">Параллельно: 13-недельный ДДС, реструктуризация долгов ТОП-10, пакет для банка.</li>
+            </ul>
+        </div>
+
+        <!-- ROADMAP -->
+        <div class="section">
+            <h2 class="section-title">🗺️ ДОРОЖНАЯ КАРТА — 30 ДНЕЙ</h2>
+            <table class="roadmap-table">
+                <thead>
+                    <tr>
+                        <th>Блок</th>
+                        <th>Задача</th>
+                        <th>Ответственный</th>
+                        <th>Срок</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>УПРАВЛЕНИЕ</strong></td>
+                        <td>Назначение антикризисного руководителя стройки</td>
+                        <td>ГенДир</td>
+                        <td><span class="deadline-badge">7 дней</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>СТРОЙКА</strong></td>
+                        <td>Аудит фактической готовности, формирование критического пути</td>
+                        <td>Антикризисный руководитель</td>
+                        <td>5–7 дней</td>
+                    </tr>
+                    <tr>
+                        <td><strong>СТРОЙКА</strong></td>
+                        <td>Обеспечение прироста готовности +3–5% на Молодёжный 1</td>
+                        <td>Антикризисный руководитель</td>
+                        <td><span class="deadline-badge">30 дней</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>ФИНАНСЫ</strong></td>
+                        <td>13-недельный ДДС, матрица задолженности 120 млн</td>
+                        <td>ФинДир</td>
+                        <td>7 дней</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ФИНАНСЫ</strong></td>
+                        <td>Переговоры с банком о возобновлении выборки</td>
+                        <td>ФинДир</td>
+                        <td>21–30 дней</td>
+                    </tr>
+                    <tr>
+                        <td><strong>КОМАНДА</strong></td>
+                        <td>График частичных выплат, еженедельный апдейт</td>
+                        <td>HR + ГенДир</td>
+                        <td>7 дней</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FINAL WARNING -->
+        <div class="final-warning blink">
+            ⚠️ Сейчас компанию спасает не кредит, а управленческое решение. Если собственники готовы его принять – у бизнеса есть шанс. Если нет – следующий отчёт будет готовить внешний управляющий.
+        </div>
+    </div>
+
+    <script>
+        // Creditors Chart
+        const creditorsCtx = document.getElementById('creditorsChart').getContext('2d');
+        new Chart(creditorsCtx, {
+            type: 'doughnut',
+             {
+                labels: ['Приоритет 1 (критические)', 'Приоритет 2 (бартер)', 'Приоритет 3 (отсрочка)'],
+                datasets: [{
+                     [77.1, 12.4, 29.9],
+                    backgroundColor: [
+                        '#dc3545',
+                        '#ffc107',
+                        '#17a2b8'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.raw + ' млн ₽';
+                            }
+                        }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+
+        // Money Flow Chart
+        const moneyFlowCtx = document.getElementById('moneyFlowChart').getContext('2d');
+        new Chart(moneyFlowCtx, {
+            type: 'pie',
+             {
+                labels: ['СМР по назначению (53,2%)', 'Управленческие расходы (24,8%)', 'Нецелевое использование (22,0%)'],
+                datasets: [{
+                     [459.3, 213.9, 190.4],
+                    backgroundColor: [
+                        '#28a745',
+                        '#ffc107',
+                        '#dc3545'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.raw + ' млн ₽';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Add blink animation to critical elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const blinkElements = document.querySelectorAll('.blink');
+            blinkElements.forEach(el => {
+                el.style.animation = 'blink 1s infinite';
+            });
+        });
+    </script>
+</body>
+</html>financial-report.html
